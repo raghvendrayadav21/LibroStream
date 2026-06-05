@@ -1,0 +1,2 @@
+# Exclude frontend from language statistics so repository is marked as Java
+frontend/**/* linguist-vendored
