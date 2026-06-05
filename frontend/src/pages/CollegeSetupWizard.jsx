@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import api from '../api/axios'
+import ThemeToggle from '../components/ThemeToggle'
 
 const STEPS = ['College Info', 'Admin Account', 'Library Config']
 
@@ -94,8 +95,12 @@ export default function CollegeSetupWizard() {
       minHeight: '100vh', background: 'var(--bg-base)',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      padding: '2rem'
+      padding: '2rem', position: 'relative'
     }}>
+      {/* Floating Theme Toggle */}
+      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 100 }}>
+        <ThemeToggle />
+      </div>
       {/* Background glow */}
       <div style={{
         position: 'fixed', top: '30%', left: '50%', transform: 'translateX(-50%)',

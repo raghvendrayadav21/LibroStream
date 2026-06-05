@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import api from '../api/axios'
+import ThemeToggle from '../components/ThemeToggle'
 
 // ── OTP Input Component (6 boxes) ────────────────────────────────────
 function OTPInput({ value, onChange, disabled }) {
@@ -155,6 +156,10 @@ export default function RegisterPage() {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem', position: 'relative', overflow: 'hidden'
     }}>
+      {/* Floating Theme Toggle */}
+      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 100 }}>
+        <ThemeToggle />
+      </div>
       {/* bg glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ThemeToggle from '../components/ThemeToggle'
 
 export default function LandingPage() {
   const { isAuthenticated, isAdmin } = useAuth()
@@ -41,6 +42,7 @@ export default function LandingPage() {
           }}>SmartLMS</span>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          <ThemeToggle />
           <Link to="/login" className="btn btn-outline btn-sm">Login</Link>
           <Link to="/college/register" className="btn btn-primary btn-sm">
             Register College

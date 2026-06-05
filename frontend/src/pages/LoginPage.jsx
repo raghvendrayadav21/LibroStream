@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import api from '../api/axios'
 import { useAuth } from '../context/AuthContext'
+import ThemeToggle from '../components/ThemeToggle'
 
 export default function LoginPage() {
   const { login, isAuthenticated, isAdmin } = useAuth()
@@ -56,6 +57,10 @@ export default function LoginPage() {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem', position: 'relative', overflow: 'hidden'
     }}>
+      {/* Floating Theme Toggle */}
+      <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', zIndex: 100 }}>
+        <ThemeToggle />
+      </div>
       {/* Background glow */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%',

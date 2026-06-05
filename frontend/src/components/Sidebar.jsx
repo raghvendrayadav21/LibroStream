@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import ThemeToggle from './ThemeToggle'
 
 const studentLinks = [
   { to: '/student',          icon: '🏠', label: 'Dashboard' },
@@ -36,25 +37,29 @@ export default function Sidebar() {
         borderBottom: '1px solid var(--bg-border)',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
         gap: '0.75rem'
       }}>
-        <div style={{
-          width: '36px', height: '36px',
-          background: 'var(--gradient-brand)',
-          borderRadius: '10px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '1.1rem', flexShrink: 0
-        }}>📚</div>
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div style={{
-            fontFamily: 'Outfit, sans-serif',
-            fontWeight: 800, fontSize: '1rem',
-            color: 'var(--text-primary)'
-          }}>SmartLMS</div>
-          <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
-            {isAdmin ? '👑 Admin Panel' : '🎓 Student Portal'}
+            width: '36px', height: '36px',
+            background: 'var(--gradient-brand)',
+            borderRadius: '10px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '1.1rem', flexShrink: 0
+          }}>📚</div>
+          <div>
+            <div style={{
+              fontFamily: 'Outfit, sans-serif',
+              fontWeight: 800, fontSize: '1rem',
+              color: 'var(--text-primary)'
+            }}>SmartLMS</div>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+              {isAdmin ? '👑 Admin Panel' : '🎓 Student Portal'}
+            </div>
           </div>
         </div>
+        <ThemeToggle />
       </div>
 
       {/* User Info */}
