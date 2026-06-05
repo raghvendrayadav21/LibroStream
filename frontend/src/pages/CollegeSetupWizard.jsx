@@ -78,7 +78,12 @@ export default function CollegeSetupWizard() {
       toast.success('College registered successfully! Please login.')
       navigate('/login')
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Registration failed. Try again.')
+      const msg = err.response?.data?.error || err.response?.data?.message;
+      if (msg && (msg.toLowerCase().includes('already taken') || msg.toLowerCase().includes('already registered'))) {
+        toast.error(`${msg} Please use a different College Code or Allowed Email Domain.`);
+      } else {
+        toast.error(msg || 'Registration failed. This college code or email domain might already be registered.');
+      }
     } finally {
       setLoading(false)
     }
