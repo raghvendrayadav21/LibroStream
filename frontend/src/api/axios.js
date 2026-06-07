@@ -8,8 +8,13 @@ import axios from 'axios'
  * 2. JWT Interceptor: Har request me automatically Authorization header add
  * 3. Response Interceptor: 401 par auto-logout
  */
+let baseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+if (baseUrl.startsWith('http') && !baseUrl.endsWith('/api') && !baseUrl.endsWith('/api/')) {
+  baseUrl = baseUrl.replace(/\/$/, '') + '/api';
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
