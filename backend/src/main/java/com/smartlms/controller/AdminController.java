@@ -157,7 +157,8 @@ public class AdminController {
         String collegeId = (String) auth.getCredentials();
 
         User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found: " + studentId));
+                .orElseGet(() -> userRepository.findByLibraryCardNumber(studentId)
+                        .orElseThrow(() -> new RuntimeException("Student not found: " + studentId)));
 
         // Security: sirf apne college ka student
         if (!student.getCollegeId().equals(collegeId)) {
