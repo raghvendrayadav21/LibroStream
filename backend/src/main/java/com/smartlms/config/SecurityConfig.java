@@ -59,6 +59,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/college/register").permitAll()
                 .requestMatchers("/api/college/check-code").permitAll()
+                .requestMatchers("/api/college/check-name").permitAll()
                 .requestMatchers("/api/college/domain").permitAll()
 
                 // ---- STUDENT ENDPOINTS ----

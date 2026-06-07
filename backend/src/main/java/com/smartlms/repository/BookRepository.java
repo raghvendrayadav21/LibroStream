@@ -26,4 +26,7 @@ public interface BookRepository extends MongoRepository<Book, String> {
 
     /** College ke total books count */
     long countByCollegeId(String collegeId);
+
+    /** College ki saari books ko delete karne ke liye */
+    void deleteByCollegeId(String collegeId);
 }

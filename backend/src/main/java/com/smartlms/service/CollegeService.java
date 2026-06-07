@@ -48,6 +48,11 @@ public class CollegeService {
     // =====================================================================
     public CollegeResponse registerCollege(CollegeRegisterRequest request) {
 
+        // Validation: College name unique hai?
+        if (collegeRepository.existsByCollegeNameIgnoreCase(request.getCollegeName().trim())) {
+            throw new IllegalArgumentException("College name '" + request.getCollegeName() + "' already taken.");
+        }
+
         // Validation: College code unique hai?
         if (collegeRepository.existsByCollegeCode(request.getCollegeCode().toUpperCase())) {
             throw new IllegalArgumentException("College code '" + request.getCollegeCode() + "' already taken.");
@@ -151,6 +156,10 @@ public class CollegeService {
     // =====================================================================
     public boolean isCollegeCodeAvailable(String code) {
         return !collegeRepository.existsByCollegeCode(code.toUpperCase());
+    }
+
+    public boolean isCollegeNameAvailable(String name) {
+        return !collegeRepository.existsByCollegeNameIgnoreCase(name.trim());
     }
 
     // =====================================================================

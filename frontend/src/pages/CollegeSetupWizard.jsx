@@ -13,6 +13,8 @@ export default function CollegeSetupWizard() {
   const [loading, setLoading] = useState(false)
   const [checkingCode, setCheckingCode] = useState(false)
   const [codeAvailable, setCodeAvailable] = useState(null)
+  const [nameAvailable, setNameAvailable] = useState(null)
+  const [checkingName, setCheckingName] = useState(false)
   const [logoPreview, setLogoPreview] = useState(null)
   const [formData, setFormData] = useState({})
 
@@ -21,15 +23,36 @@ export default function CollegeSetupWizard() {
   // Check college code availability
   const checkCollegeCode = async () => {
     const code = getValues('collegeCode')
-    if (!code || code.length < 3) return
+    if (!code || code.trim().length < 3) {
+      setCodeAvailable(null)
+      return
+    }
     setCheckingCode(true)
     try {
-      const res = await api.get(`/college/check-code?code=${code}`)
+      const res = await api.get(`/college/check-code?code=${code.trim()}`)
       setCodeAvailable(res.data.available)
     } catch {
       setCodeAvailable(null)
     } finally {
       setCheckingCode(false)
+    }
+  }
+
+  // Check college name availability
+  const checkCollegeName = async () => {
+    const name = getValues('collegeName')
+    if (!name || name.trim().length < 3) {
+      setNameAvailable(null)
+      return
+    }
+    setCheckingName(true)
+    try {
+      const res = await api.get(`/college/check-name?name=${encodeURIComponent(name.trim())}`)
+      setNameAvailable(res.data.available)
+    } catch {
+      setNameAvailable(null)
+    } finally {
+      setCheckingName(false)
     }
   }
 
@@ -56,9 +79,21 @@ export default function CollegeSetupWizard() {
     const valid = await trigger(fields)
     if (!valid) return
 
-    if (step === 0 && codeAvailable === false) {
-      toast.error('College code is already taken!')
-      return
+    if (step === 0) {
+      if (nameAvailable === null) await checkCollegeName()
+      if (codeAvailable === null) await checkCollegeCode()
+
+      const isNameOk = nameAvailable ?? true
+      const isCodeOk = codeAvailable ?? true
+
+      if (!isNameOk) {
+        toast.error('College name is already registered!')
+        return
+      }
+      if (!isCodeOk) {
+        toast.error('College code is already taken!')
+        return
+      }
     }
 
     setFormData(prev => ({ ...prev, ...getValues() }))
@@ -168,8 +203,14 @@ export default function CollegeSetupWizard() {
                   <label className="input-label">College Name *</label>
                   <input className={`input ${errors.collegeName ? 'input-error' : ''}`}
                     placeholder="e.g., MIT College of Engineering, Indore"
-                    {...register('collegeName', { required: 'College name is required' })} />
+                    {...register('collegeName', { required: 'College name is required', onBlur: checkCollegeName })} />
                   {errors.collegeName && <span className="error-message">{errors.collegeName.message}</span>}
+                  {nameAvailable === false && (
+                    <span className="error-message">✗ College name already registered. Choose another.</span>
+                  )}
+                  {nameAvailable === true && (
+                    <span style={{ fontSize: '0.8rem', color: 'var(--color-success)' }}>✓ Name is available!</span>
+                  )}
                 </div>
 
                 <div className="input-group">
@@ -185,7 +226,8 @@ export default function CollegeSetupWizard() {
                       style={{ textTransform: 'uppercase' }}
                       {...register('collegeCode', {
                         required: 'Required', minLength: { value: 3, message: 'Min 3 chars' },
-                        maxLength: { value: 10, message: 'Max 10 chars' }
+                        maxLength: { value: 10, message: 'Max 10 chars' },
+                        onBlur: checkCollegeCode
                       })} />
                     <button type="button" className="btn btn-outline btn-sm"
                       style={{ whiteSpace: 'nowrap', flexShrink: 0 }}

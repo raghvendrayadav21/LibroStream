@@ -27,4 +27,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     /** College ke active students count ke liye */
     long countByCollegeIdAndRole(String collegeId, String role);
+
+    /** College ke saare users ko delete karne ke liye */
+    void deleteByCollegeId(String collegeId);
 }

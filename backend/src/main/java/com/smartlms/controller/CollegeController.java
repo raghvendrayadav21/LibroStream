@@ -53,6 +53,16 @@ public class CollegeController {
         return ResponseEntity.ok(resp);
     }
 
+    @GetMapping("/check-name")
+    public ResponseEntity<?> checkCollegeName(@RequestParam String name) {
+        boolean available = collegeService.isCollegeNameAvailable(name);
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("name", name);
+        resp.put("available", available);
+        resp.put("message", available ? "College name is available!" : "College name already exists.");
+        return ResponseEntity.ok(resp);
+    }
+
     @GetMapping("/domain")
     public ResponseEntity<?> getCollegeByEmail(@RequestParam String email) {
         Optional<College> found = collegeService.getCollegeByEmailDomain(email);

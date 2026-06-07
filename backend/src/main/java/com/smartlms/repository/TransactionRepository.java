@@ -44,4 +44,7 @@ public interface TransactionRepository extends MongoRepository<BookTransaction, 
 
     /** College ki returned today books count (dashboard stats) */
     long countByCollegeIdAndStatusAndReturnDate(String collegeId, String status, LocalDate returnDate);
+
+    /** College ki saari transactions ko delete karne ke liye */
+    void deleteByCollegeId(String collegeId);
 }

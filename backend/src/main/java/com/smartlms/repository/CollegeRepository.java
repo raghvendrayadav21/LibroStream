@@ -23,4 +23,7 @@ public interface CollegeRepository extends MongoRepository<College, String> {
 
     /** Check karo ki college code already taken hai ya nahi */
     boolean existsByCollegeCode(String collegeCode);
+
+    /** Check karo ki college name already registered hai ya nahi (case-insensitive) */
+    boolean existsByCollegeNameIgnoreCase(String collegeName);
 }
