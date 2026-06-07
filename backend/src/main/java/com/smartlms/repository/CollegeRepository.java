@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface CollegeRepository extends MongoRepository<College, String> {
 
     /** Email domain se college dhundho (dynamic domain validation ke liye) */
-    Optional<College> findByAllowedEmailDomain(String domain);
+    Optional<College> findFirstByAllowedEmailDomain(String domain);
 
     /** College code check karne ke liye (unique check during registration) */
     Optional<College> findByCollegeCode(String collegeCode);

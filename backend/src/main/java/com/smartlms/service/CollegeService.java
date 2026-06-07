@@ -56,7 +56,7 @@ public class CollegeService {
         // Validation: Email domain unique hai?
         String domain = request.getAllowedEmailDomain().toLowerCase().trim();
         if (!domain.startsWith("@")) domain = "@" + domain;
-        if (collegeRepository.existsByAllowedEmailDomain(domain)) {
+        if (!domain.equals("@gmail.com") && collegeRepository.existsByAllowedEmailDomain(domain)) {
             throw new IllegalArgumentException("Email domain '" + domain + "' already registered.");
         }
 
@@ -133,7 +133,7 @@ public class CollegeService {
             String newDomain = request.getAllowedEmailDomain().toLowerCase().trim();
             if (!newDomain.startsWith("@")) newDomain = "@" + newDomain;
             if (!newDomain.equals(college.getAllowedEmailDomain())) {
-                if (collegeRepository.existsByAllowedEmailDomain(newDomain)) {
+                if (!newDomain.equals("@gmail.com") && collegeRepository.existsByAllowedEmailDomain(newDomain)) {
                     throw new IllegalArgumentException("Domain already in use by another college.");
                 }
                 college.setAllowedEmailDomain(newDomain);
@@ -158,7 +158,7 @@ public class CollegeService {
     // =====================================================================
     public Optional<College> getCollegeByEmailDomain(String email) {
         String domain = email.substring(email.indexOf('@'));
-        return collegeRepository.findByAllowedEmailDomain(domain);
+        return collegeRepository.findFirstByAllowedEmailDomain(domain);
     }
 
     // =====================================================================

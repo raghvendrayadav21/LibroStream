@@ -66,7 +66,7 @@ public class AuthController {
 
         // Check: is email domain ka koi college registered hai?
         String domain = extractDomain(email);
-        Optional<College> college = collegeRepository.findByAllowedEmailDomain(domain);
+        Optional<College> college = collegeRepository.findFirstByAllowedEmailDomain(domain);
         if (college.isEmpty()) {
             return ResponseEntity.badRequest()
                     .body(MessageResponse.error(
@@ -100,7 +100,7 @@ public class AuthController {
 
         // College dhundho (domain se)
         String domain = extractDomain(email);
-        Optional<College> collegeOpt = collegeRepository.findByAllowedEmailDomain(domain);
+        Optional<College> collegeOpt = collegeRepository.findFirstByAllowedEmailDomain(domain);
         if (collegeOpt.isEmpty()) {
             return ResponseEntity.badRequest()
                     .body(MessageResponse.error("Invalid college email domain."));
