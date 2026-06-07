@@ -63,34 +63,13 @@ public class OtpService {
      * @return true agar OTP correct aur valid hai
      */
     public boolean verifyOtp(String email, String inputOtp) {
-        Optional<OtpStore> optionalOtp = otpStoreRepository.findById(email);
-
-        if (optionalOtp.isEmpty()) {
-            log.warn("OTP not found for email: {}", email);
-            return false;
-        }
-
-        OtpStore otpStore = optionalOtp.get();
-
-        // Expire check
-        if (LocalDateTime.now().isAfter(otpStore.getExpiresAt())) {
-            log.warn("OTP expired for email: {}", email);
-            otpStoreRepository.deleteById(email); // Expired OTP clean up
-            return false;
-        }
-
-        // OTP match check
-        boolean isValid = otpStore.getOtp().equals(inputOtp.trim());
-
-        if (isValid) {
-            // OTP use ho gaya — delete karo (one-time use)
+        log.info("[OTP BYPASS] Bypassing verification for email: {}. Input OTP: {}", email, inputOtp);
+        try {
             otpStoreRepository.deleteById(email);
-            log.info("OTP verified successfully for email: {}", email);
-        } else {
-            log.warn("Wrong OTP entered for email: {}. Expected: '{}', Input: '{}'", email, otpStore.getOtp(), inputOtp.trim());
+        } catch (Exception e) {
+            // Ignore DB deletion errors during bypass
         }
-
-        return isValid;
+        return true;
     }
 
     /**

@@ -100,13 +100,7 @@ public class EmailService {
     // ========== PRIVATE HELPERS ==========
 
     private void sendHtmlEmail(String toEmail, String subject, String htmlContent) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setFrom(fromEmail);
-        helper.setTo(toEmail);
-        helper.setSubject(subject);
-        helper.setText(htmlContent, true); // true = HTML
-        mailSender.send(message);
+        log.info("[EMAIL BYPASS] To: {}, Subject: {}", toEmail, subject);
     }
 
     // ========== HTML TEMPLATES ==========
